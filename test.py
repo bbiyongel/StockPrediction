@@ -64,26 +64,3 @@ f.close()
 #		fout.write(data)
 		
 #print count
-
-		
-		
-		
-		
-		
-		
-		
-#fn ='C:\Users\Juni\Desktop\list.json'
-
-#fout = open('C:\Users\Juni\Desktop\list3.txt','w')
-#count = 0
-#with open(fn, 'r') as f:
-#	stock_list =json.load(f)
-#	for s in stock_list[:]:
-#		count+=1
-#		#fprint s['full_code'], s['code'][1:], s['name']	
-#		data = s['code'][1:] +" "
-#		fout.write(data)
-#		data = s['name'].encode('utf-8') +"<br>\n"
-#		fout.write(data)
-		
-#print count
