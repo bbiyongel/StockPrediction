@@ -24,6 +24,11 @@ f.close()
 # 파일 저장 경로
 f= open('C:\Users\Juni\Desktop\list.txt', 'a')
 
+# DB 초기화
+sql = '''DELETE FROM stock_price WHERE stock_id = %s'''%'078020'
+cursor.execute(sql)
+db.commit()
+
 end = datetime(2015, 8, 30)
 start = end + delta
 for i in range(55):
