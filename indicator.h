@@ -10,16 +10,6 @@ typedef struct _Price
 	int stock_volume;
 }Price;
 
-typedef struct _Indicator
-{
-
-	int stock_open;
-	int stock_high;
-	int stock_low;
-	int stock_close;
-	int stock_volume;
-}Indicator;
-
 int getMovingAvg(Price price[ROW_SIZE], int today_index, int N);
 int getMomentum(Price price[ROW_SIZE], int today_index, int degree);
 int getMacd(Price price[ROW_SIZE], int today_index);
