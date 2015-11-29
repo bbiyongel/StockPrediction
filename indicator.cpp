@@ -20,8 +20,10 @@ int getMovingAvg(Price price[ROW_SIZE], int today_index, int N)
 
 int getMomentum(Price price[ROW_SIZE], int today_index, int degree)
 {
-	double result = (double)price[today_index].stock_close / (double)price[today_index - degree].stock_close * 100;
-	return result;
+	if ((double)price[today_index - degree].stock_close>0)
+		return (double)price[today_index].stock_close / (double)price[today_index - degree].stock_close * 100;
+	else
+		return 0;
 }
 
 int getMacd(Price price[ROW_SIZE], int today_index)
@@ -30,7 +32,11 @@ int getMacd(Price price[ROW_SIZE], int today_index)
 	int long_per = 26;
 	// 단기지수 이동평균 - 장기지수 이동평균
 	// -에서 /로 정규화
-	return (double)getMovingAvg(price, today_index, short_per) / (double)getMovingAvg(price, today_index, long_per) * 100;
+
+	if ((double)getMovingAvg(price, today_index, long_per) > 0)
+		return (double)getMovingAvg(price, today_index, short_per) / (double)getMovingAvg(price, today_index, long_per) * 100;
+	else
+		return 0;
 }
 
 int getStocastic(Price price[ROW_SIZE], int today_index)
@@ -46,12 +52,19 @@ int getStocastic(Price price[ROW_SIZE], int today_index)
 		if (min_price > price[today_index - i].stock_low)
 			min_price = price[today_index - i].stock_low;
 	}
-	return (double)(price[today_index].stock_close - min_price) / (double)(max_price - min_price) * 100;
+
+	if ((double)(max_price - min_price)>0)
+		return (double)(price[today_index].stock_close - min_price) / (double)(max_price - min_price) * 100;
+	else
+		return 0;
 }
 
 int getRoc(Price price[ROW_SIZE], int today_index)
 {
+	if ((double)price[today_index - 4].stock_close>0)
 	return (double)price[today_index].stock_close / (double)price[today_index - 4].stock_close * 100;
+	else
+		return 0;
 }
 
 int getWiliamsR(Price price[ROW_SIZE], int today_index)
@@ -67,23 +80,34 @@ int getWiliamsR(Price price[ROW_SIZE], int today_index)
 		if (min_price > price[today_index - i].stock_low)
 			min_price = price[today_index - i].stock_low;
 	}
-
-	return (double)(max_price - price[today_index].stock_close) / (double)(max_price - min_price) * 100;
+	if ((double)(max_price - min_price) > 0)
+		return (double)(max_price - price[today_index].stock_close) / (double)(max_price - min_price) * 100;
+	else
+		return 0;
 }
 
 int getADOscilator(Price price[ROW_SIZE], int today_index)
 {
-	return (double)(price[today_index].stock_high - price[today_index - 1].stock_close) / (double)(price[today_index].stock_high - price[today_index].stock_low) * 100;
+	if ((double)(price[today_index].stock_high - price[today_index].stock_low) > 0)
+		return (double)(price[today_index].stock_high - price[today_index - 1].stock_close) / (double)(price[today_index].stock_high - price[today_index].stock_low) * 100;
+	else
+		return 0;
 }
 
 int getDisparity(Price price[ROW_SIZE], int today_index, int degree)
 {
-	return (double)price[today_index].stock_close / (double)getMovingAvg(price, today_index, degree) * 100;
+	if ((double)getMovingAvg(price, today_index, degree) > 0)
+		return (double)price[today_index].stock_close / (double)getMovingAvg(price, today_index, degree) * 100;
+	else
+		return 0;
 }
 
 int getOSCP(Price price[ROW_SIZE], int today_index)
 {
-	return (double)(getMovingAvg(price, today_index, 5) - getMovingAvg(price, today_index, 10)) / (double)getMovingAvg(price, today_index, 5) * 100;
+	if ((double)getMovingAvg(price, today_index, 5) > 0)
+		return (double)(getMovingAvg(price, today_index, 5) - getMovingAvg(price, today_index, 10)) / (double)getMovingAvg(price, today_index, 5) * 100;
+	else
+		return 0;
 }
 
 int getRSI(Price price[ROW_SIZE], int today_index, int period)
@@ -102,7 +126,10 @@ int getRSI(Price price[ROW_SIZE], int today_index, int period)
 			down_price += abs(price[today_index - period + i + 1].stock_close - price[today_index - period + i].stock_close);
 		}
 	}
-	return (double)up_price / (double)(up_price + down_price) * 100;
+	if ((double)(up_price + down_price) > 0 && up_price>0)
+		return (double)up_price / (double)(up_price + down_price) * 100;
+	else
+		return 0;
 }
 
 // default period = 20
@@ -121,5 +148,10 @@ int getBolingerWidth(Price price[ROW_SIZE], int today_index, int period)
 	result = (double)sqrt((double)result / (double)period) * d;
 	
 	// 정규화
-	return (double)(result+mid) / (double)mid * 100;
+	if (mid > 0 && result + mid> 0){
+		return (double)(result + mid) / (double)mid * 100;
+	}
+	else 
+		return 0;
+	
 }
