@@ -3,6 +3,7 @@ import json
 from BeautifulSoup import BeautifulSoup
 from datetime import timedelta, date, datetime
 import MySQLdb
+import time
 
 # DB 연결
 db = MySQLdb.connect("localhost", "root", "rkdqnr123", "stock")
@@ -14,14 +15,14 @@ com_fd = open('company_list.txt', 'r')
 # range
 for com_idx in range(1):
         # 날짜 설정
-        end = datetime(2015, 11, 22)
+        end = datetime(2015, 11, 29)
         delta = timedelta(days=-200)
         start = end + delta
 
         com_line = com_fd.readline()
         com_split = com_line.split(' ')
-        #company = com_split[0]
-        company = '009450'
+        company = com_split[0]
+        company = '001260'
 
         if company == '':
                 break;
@@ -76,6 +77,7 @@ for com_idx in range(1):
                 else:
                         break;
                 db.commit()
+                time.sleep(0.3)
                 
 com_fd.close()
 cursor.close()
